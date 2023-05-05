@@ -75,10 +75,14 @@ function resolveValue (value, currentValue, options, path = []) {
       }
 
       for (let i = 0; i < length; i++) {
-        if (!value[i].typeName) {
-          warn(`Missing typeName for reference at: ${path.join('.')}.${i}`)
-        } else if (!currentValue.typeName.includes(value[i].typeName)) {
-          currentValue.typeName.push(value[i].typeName)
+        if (value[i] && value[i].hasOwnProperty('typeName')){
+          if (!value[i].typeName) {
+            warn(`Missing typeName for reference at: ${path.join('.')}.${i}`)
+          } else if (!currentValue.typeName.includes(value[i].typeName)) {
+            currentValue.typeName.push(value[i].typeName)
+          }
+        } else {
+          warn(`Missing typeName property for reference at: ${path.join('.')}.${i}`)
         }
       }
 
